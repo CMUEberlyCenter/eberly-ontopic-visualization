@@ -17,9 +17,12 @@
 
 .drydock-top {
   flex: 0;
-  font-size: 20pt;
+  font-size: 32pt;
+  font-weight: bold;
+  line-height: 32pt;
   padding: 2px;
   margin: 6px;
+  color: #637aad;
 }
 
 .drydock-row {

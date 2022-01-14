@@ -3,21 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "ApplicationManager", {
+Object.defineProperty(exports, "OnTopicVisualization", {
   enumerable: true,
   get: function get() {
-    return _ApplicationManager["default"];
-  }
-});
-Object.defineProperty(exports, "WindowManager", {
-  enumerable: true,
-  get: function get() {
-    return _WindowManager["default"];
+    return _OnTopicVisualization["default"];
   }
 });
 
-var _WindowManager = _interopRequireDefault(require("./components/WindowManager"));
-
-var _ApplicationManager = _interopRequireDefault(require("./components/ApplicationManager"));
+var _OnTopicVisualization = _interopRequireDefault(require("./components/OnTopicVisualization"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
