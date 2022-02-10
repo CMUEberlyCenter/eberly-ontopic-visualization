@@ -9,6 +9,8 @@ import { Form, FormControl, Button, Navbar, Nav, NavItem, NavDropdown } from 're
 // The import below either doesn't work or doesn't do anything, see index.html
 import "react-tabs/style/react-tabs.css";
 
+import './styles/ontopic.css';
+
 //import ToolButton from './ToolButton';
 
 import OnTopicDataTools from './OnTopicDataTools';
@@ -409,7 +411,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateTextViewFlipped () {
-    //console.log ("generateTextViewFlipped ("+this.props.invalidated+")");
+    console.log ("generateTextViewFlipped ("+this.props.invalidated+")");
 
     topicCache=[];
 
@@ -421,6 +423,7 @@ class OnTopicVisualization extends Component {
     } 
 
     let expanded=this.props.textdata.expanded;
+
     let header="";
     let index=1;
 
@@ -494,7 +497,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateTextViewRegular () {
-    //console.log ("generateTextViewRegular ("+this.props.invalidated+")");   
+    console.log ("generateTextViewRegular ("+this.props.invalidated+")");   
 
     topicCache=[];
 
@@ -504,6 +507,7 @@ class OnTopicVisualization extends Component {
         
     let rows=[];
     let expanded=this.props.textdata.expanded;
+
     let header="";
     let index=1;
     let rowIndex=0;

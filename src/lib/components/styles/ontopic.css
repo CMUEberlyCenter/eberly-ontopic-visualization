@@ -1,8 +1,182 @@
 
-
 .ontopic {
   background: white;
   border: 1px inset white;
   width: 100%;
   height: 100%;
+}
+
+.contentcolumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentrowflex {
+  flex: 1;
+  margin-top: 10px;
+  overflow: auto;
+}
+
+.contentrowfixed {
+  flex: 0;
+}
+
+.langtable {
+  /*width: 100%;*/
+  margin: 12px;
+}
+
+.langtable td {
+  padding: 3px;  
+}
+
+.pseparator {
+  background: #f1f1f1;
+  height: 14px;
+  font-size: 2pt;
+}
+
+.psentence {
+  font-size: 10pt;
+}
+
+.vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 10pt;
+  cursor: pointer;
+}
+
+.vertical-disabled {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 10pt;
+  color: grey;
+}
+
+.horizontal {
+  text-orientation: mixed;
+  font-size: 10pt;
+  cursor: pointer;
+  padding-right: 4px;
+}
+
+.horizontal-disabled {
+  text-orientation: mixed;
+  font-size: 10pt;
+  color: grey;
+}
+
+.block-red {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: #c170c1;
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+
+.block-purple {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: #5a075a;
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+
+.block-blue {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: blue;
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+
+.block-blue-horizontal {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: blue;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.block-disabled {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: grey;
+  margin-bottom: 5px;
+}
+
+.block-blank {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: white;
+}
+
+.block-right {
+  margin: 1px;
+  float: right;
+}
+
+.block-left {
+  margin: 1px;
+  float: left;
+}
+
+.empty {
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: white;
+}
+
+.searchinput {
+  margin: 0px;
+  margin-top: 0px;
+  max-height: 34px;
+  display: none;
+}
+
+.topictag {
+  background: #f9f9b6;
+  /* display: block; */
+  /* float: left; */
+  font-size: 10pt;
+  padding: 4px;
+  margin: 2px;
+  border-radius: 3px;
+  border: 1px solid #eae5e5;
+}
+
+.topicsbag {
+  margin-bottom: 13px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.red-tag {
+  color: red;
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 9pt;
+}
+
+.grey {
+  width: 14px;
+  background: #f1f1f1;
+}
+
+.grey-narrow {
+  width: 8px;
+  background: #f1f1f1;
+}
+
+.float-right {
+  float: right;
 }

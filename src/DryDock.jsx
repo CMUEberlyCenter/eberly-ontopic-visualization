@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 
+// https://react-bootstrap.github.io/components/navbar/#navbars-mobile-friendly
+import { Form, FormControl, Button, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
+
 import '../css/main.css';
 import '../css/drydock.css';
 
+import { paragraphData } from './paragraphdata.js'
+import { textData } from './textdata.js'
+import { sentenceData } from './sentencedata.js'
+import { rawData } from './rawdata.js'
+
+import HashTable from './HashTable';
+
+import Topic from './lib/components/Topic';
 import OnTopicDataTools from './lib/components/OnTopicDataTools';
 import OnTopicConstants from './lib/components/OnTopicConstants';
 import OnTopicVisualization from './lib/components/OnTopicVisualization';
@@ -44,6 +55,10 @@ class DryDock extends Component {
     this.onDataset3=this.onDataset3.bind(this);
     this.onDataset4=this.onDataset4.bind(this);
 
+    this.onSelect=this.onSelect.bind(this);
+    this.modeToTab=this.modeToTab.bind(this);
+    this.onFlip=this.onFlip.bind(this);
+    this.onHandleTopic=this.onHandleTopic.bind(this);
     this.updateVisualization=this.updateVisualization.bind(this);
   }
 
@@ -135,8 +150,11 @@ class DryDock extends Component {
    */
   prep (data) {
     console.log ("prep ("+this.state.mode+")");
+    console.log (data);
 
     var newData=this.dataTools.deepCopy (this.state.textdata);
+
+    newData.plain=rawData;
 
     //>--------------------------------------------------------------------
 
@@ -291,8 +309,6 @@ class DryDock extends Component {
    */
   onFlip () {
     console.log ("onFlip ()");    
-
-    this.logSAIAction ("this","flipView","");
     
     if (this.state.flipped==true) {
       this.setState ({flipped: false});
