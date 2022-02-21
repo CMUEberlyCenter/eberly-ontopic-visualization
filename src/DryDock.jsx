@@ -54,11 +54,12 @@ class DryDock extends Component {
     this.onDataset2=this.onDataset2.bind(this);
     this.onDataset3=this.onDataset3.bind(this);
     this.onDataset4=this.onDataset4.bind(this);
-
+    this.onHandleSentence = this.onHandleSentence.bind(this);
     this.onSelect=this.onSelect.bind(this);
     this.modeToTab=this.modeToTab.bind(this);
     this.onFlip=this.onFlip.bind(this);
     this.onHandleTopic=this.onHandleTopic.bind(this);
+
     this.updateVisualization=this.updateVisualization.bind(this);
   }
 
@@ -125,6 +126,65 @@ class DryDock extends Component {
       this.setState ({mode: "OUTLINE"});
     }
   }
+
+  /**
+   *
+   */
+  onHandleTopic (topicId,isGlobal,count) {
+    console.log ("onHandleTopic ("+topicId+","+isGlobal+","+count+") => Dummy for now");
+  }
+
+  /**
+   *
+   */
+  onHandleSentence (aSentenceObject) {
+    console.log ("onHandleSentence ()");
+
+    this.setState ({sentence: aSentenceObject},(e) => {
+      this.onSentenceChange ();
+    });
+  }
+
+  /**
+   * On input change, update the annotations.
+   *
+   * @param {Event} event
+   */
+  onSentenceChange () {
+    console.log ("onSentenceChange ()");
+
+    /*
+    const editor = this.getEditorRef ();
+    
+    if (editor==null) {
+      return;
+    }
+
+    const { value } = editor;
+    const { document, annotations } = value;
+
+    // Make the change to annotations without saving it into the undo history,
+    // so that there isn't a confusing behavior when undoing.
+    editor.withoutSaving(() => {
+      if (this.state.sentence!=null) {
+        //let string = this.state.sentence.sentence;
+      
+        // Key is the editor's paragraph id
+        let pIndex=1;
+        for (const [node, path] of document.texts()) {
+          const { key, text } = node;
+          console.log ("Paragraph: " + pIndex + ", text: " + text);
+ 
+          let boundaries=this.dataTools.findSentence (text,this.state.sentence);
+
+          console.trace (boundaries);
+
+          pIndex++;
+        }
+      }
+    });
+    */
+  }  
 
   /**
    *
@@ -320,19 +380,13 @@ class DryDock extends Component {
   /**
    *
    */
-  onHandleTopic (topicId,isGlobal,count) {
-    console.log ("onHandleTopic ("+topicId+","+isGlobal+","+count+") => Dummy for now");
-  }
-
-  /**
-   *
-   */
   render() {
 
     let ontopic=<OnTopicVisualization 
       onFlip={this.onFlip}
       onSelect={this.onSelect}
       onHandleTopic={this.onHandleTopic}
+      onHandleSentence={this.onHandleSentence}
       defaultindex={this.modeToTab ()}
       loading={this.state.loading} 
       flipped={this.state.flipped}

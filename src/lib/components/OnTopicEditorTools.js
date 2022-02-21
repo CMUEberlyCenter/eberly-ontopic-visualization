@@ -4,7 +4,7 @@ import OnTopicDataTools from './OnTopicDataTools';
 /**
  * 
  */
-class OnTopicEditorEditorTools {
+class OnTopicEditorTools {
 
   /**
    *
@@ -99,4 +99,4 @@ class OnTopicEditorEditorTools {
   }  
 }
 
-export default OnTopicEditorEditorTools;
+export default OnTopicEditorTools;

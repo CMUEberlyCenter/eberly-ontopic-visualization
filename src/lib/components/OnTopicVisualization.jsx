@@ -87,13 +87,41 @@ class OnTopicVisualization extends Component {
     this.editorTools=new OnTopicEditorTools ();
 
     this.onHandleParagraphChange = this.onHandleParagraphChange.bind(this);
+    this.onHandleSentence = this.onHandleSentence.bind(this);
+    this.onParagraphTopicClick = this.onParagraphTopicClick.bind(this);
   }	
 
   /**
    *
    */
+  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence) {
+    console.log ("onHandleSentence ("+aParagraph+","+aSentenceIndex+")");
+
+    let sentenceObject=this.dataTools.buildSentenceModel (aBlock,aSentence);
+
+    console.log (sentenceObject);
+
+    if (sentenceObject!=null) {
+      sentenceObject.paragraphIndex=aParagraph;
+      sentenceObject.sentenceIndex=aSentenceIndex;
+ 
+      if (this.props.onHandleSentence) {
+        this.props.onHandleSentence (sentenceObject);
+      }
+
+      /*
+      this.setState ({sentence: sentenceObject},(e) => {
+        this.onSentenceChange ();
+      });
+      */
+    }
+  }  
+
+  /**
+   *
+   */
   generateSentenceView () {
-    //console.log ("generateSentenceView ("+this.props.invalidated+")");
+    console.log ("generateSentenceView ("+this.props.invalidated+")");
 
     let rows=[];
     let sentence=1;
@@ -129,9 +157,9 @@ class OnTopicVisualization extends Component {
           }  
 
           if (this.props.invalidated==false) {
-            leftBlocks.push(<div className={leftClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
+            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
           } else {
-            leftBlocks.push(<div className={leftClass}></div>);              
+            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass}></div>);              
           }
 
           npIndex++;
@@ -151,18 +179,18 @@ class OnTopicVisualization extends Component {
           }
 
           if (this.props.invalidated==false) {
-            rightBlocks.push(<div className={rightClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
+            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
           } else {
-            rightBlocks.push(<div className={rightClass}></div>);              
+            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass}></div>);              
           }
 
           npIndex++;
         }
 
-        rows.push(<tr className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td>&nbsp;</td><td valign="bottom">{rightBlocks}</td></tr>);
+        rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td>&nbsp;</td><td valign="bottom">{rightBlocks}</td></tr>);
         sentence++;
       } else {
-        rows.push(<tr className="pseparator"><td valign="bottom" colspan="4">&nbsp;</td></tr>);
+        rows.push(<tr key={this.dataTools.uuidv4()} className="pseparator"><td valign="bottom" colSpan="4">&nbsp;</td></tr>);
       }
     }
 
@@ -182,7 +210,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateParagraphViewFlipped () {
-    //console.log ("generateParagraphViewFlipped ("+this.props.invalidated+","+this.state.pTarget+")");
+    console.log ("generateParagraphViewFlipped ("+this.props.invalidated+","+this.state.pTarget+")");
 
     topicCache=[];
 
@@ -203,10 +231,10 @@ class OnTopicVisualization extends Component {
 
     for (let i=0;i<this.props.textdata.paragraphs.length;i++) {
       if (i==0) {
-        topicTags.push (<td>&nbsp;</td>);
+        topicTags.push (<td key={this.dataTools.uuidv4()}>&nbsp;</td>);
         topics=this.props.textdata.paragraphs [i];
         for (let j=0;j<topics.length;j++) {
-          topicTags.push (<td valign="bottom"><div className="vertical noselect">{topics [j][1]}</div></td>);
+          topicTags.push (<td key={this.dataTools.uuidv4()} valign="bottom"><div className="vertical noselect">{topics [j][1]}</div></td>);
         }
       } else {
         let row=this.props.textdata.paragraphs [i];
@@ -224,18 +252,18 @@ class OnTopicVisualization extends Component {
             for (let l=0;l<row.length;l++) {
               let cell=row [l];
               if (cell [0]==null) {
-                markers.push (<td><div className="block-blank block-left"></div></td>);
+                markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blank block-left"></div></td>);
               } else {
                 if (this.props.invalidated==false) {
-                  markers.push (<td><div className="block-blue block-left" alt={topics [l][1]} title={topics [l][1]} onClick={(e)=> this.onParagraphTopicClick (topics [l][1])}></div></td>);
+                  markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blue block-left" alt={topics [l][1]} title={topics [l][1]} onClick={(e)=> this.onParagraphTopicClick (topics [l][1])}></div></td>);
                 } else {
-                  markers.push (<td><div className="block-disabled" alt={topics [l][1]} title={topics [l][1]}></div></td>);                    
+                  markers.push (<td key={this.dataTools.uuidv4()}><div className="block-disabled" alt={topics [l][1]} title={topics [l][1]}></div></td>);                    
                 }
               }
             }
           } else {            
             for (let l=0;l<row.length;l++) {
-              markers.push (<td><div className="block-blank block-left red-tag">X</div></td>);
+              markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blank block-left red-tag">X</div></td>);
             }
           }
         }
@@ -247,7 +275,7 @@ class OnTopicVisualization extends Component {
           let firstSentence=this.editorTools.getParagraphSentencePlain (this.props.textdata.plain,paraCount);
 
           if (this.state.pTarget==paraCount) {
-            paraPulldown.push(<option value={(paraCount+1)} selected>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);
+            paraPulldown.push(<option value={(paraCount+1)} selected={true}>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);
           } else {
             paraPulldown.push(<option value={(paraCount+1)}>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);              
           }
@@ -255,7 +283,7 @@ class OnTopicVisualization extends Component {
           paraCount++;
         } else {
           if (paraCount==this.state.pTarget) {
-            rows.push(<tr className="psentence"><td>{lineCount}</td>{markers}</tr>);
+            rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{lineCount}</td>{markers}</tr>);
           }
           lineCount++;
         }
@@ -307,19 +335,19 @@ class OnTopicVisualization extends Component {
     let paraCount=0;
     let paraPulldown=[];
 
-    paraPulldown.push(<option value={-1}>{"---"}</option>);
+    paraPulldown.push(<option key={this.dataTools.uuidv4()} value={-1}>{"---"}</option>);
 
     for (let i=0;i<this.props.textdata.paragraphs.length;i++) {
       if (i==0) {
         topics=this.props.textdata.paragraphs [i];
 
         let newRow=[];
-        newRow.push (<td>&nbsp;</td>);
+        newRow.push (<td key={this.dataTools.uuidv4()}>&nbsp;</td>);
         rows.push(newRow);
 
         for (let j=0;j<topics.length;j++) {          
           newRow=[];
-          newRow.push (<td align="right"><div className="horizontal">{topics [j][1]}</div></td>);
+          newRow.push (<td key={this.dataTools.uuidv4()} align="right"><div className="horizontal">{topics [j][1]}</div></td>);
           rows.push(newRow);
         }
       } else {
@@ -338,14 +366,14 @@ class OnTopicVisualization extends Component {
             for (let l=0;l<row.length;l++) {
               let cell=row [l];
               if (cell [0]==null) {
-                markers.push (<td><div className="block-blank block-left"></div></td>);
+                markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blank block-left"></div></td>);
               } else {
-                markers.push (<td><div className="block-blue block-left" alt={topics [l][1]} title={topics [l][1]}></div></td>);
+                markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blue block-left" alt={topics [l][1]} title={topics [l][1]}></div></td>);
               }
             }
           } else {            
             for (let l=0;l<row.length;l++) {
-              markers.push (<td><div className="block-blank block-left red-tag">X</div></td>);
+              markers.push (<td key={this.dataTools.uuidv4()}><div className="block-blank block-left red-tag">X</div></td>);
             }
           }
         }
@@ -358,9 +386,9 @@ class OnTopicVisualization extends Component {
 
           if (this.state.pTarget==paraCount) {
             console.log ("Found selected paragraph");
-            paraPulldown.push(<option value={(paraCount+1)} selected>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);
+            paraPulldown.push(<option key={this.dataTools.uuidv4()} value={(paraCount+1)} selected={true}>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);
           } else {
-            paraPulldown.push(<option value={(paraCount+1)}>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);    
+            paraPulldown.push(<option key={this.dataTools.uuidv4()} value={(paraCount+1)}>{"¶ "+(paraCount+1) + " - " +(firstSentence.substring(0, 50)) + " ... "}</option>);    
           }
 
           paraCount++;
@@ -370,7 +398,7 @@ class OnTopicVisualization extends Component {
             // number of rows
             for (let w=0;w<markers.length;w++) {
               if (w==0) {
-                rows [w].push (<td><div className="horizontal">{lineCount}</div></td>); 
+                rows [w].push (<td key={this.dataTools.uuidv4()}><div className="horizontal">{lineCount}</div></td>); 
               }
               rows [w+1].push (markers [w]);
             }
@@ -392,7 +420,7 @@ class OnTopicVisualization extends Component {
         let el=aRow[y];
         syntaxFixer.push(el);
       }
-      vizRows.push (<tr>{syntaxFixer}</tr>);
+      vizRows.push (<tr key={this.dataTools.uuidv4()}>{syntaxFixer}</tr>);
     }
 
     if (this.state.pTarget!=-1) {
@@ -432,14 +460,14 @@ class OnTopicVisualization extends Component {
 
       if (i==0) {
         header=[];
-        header.push(<td>&nbsp;</td>); 
+        header.push(<td key={this.dataTools.uuidv4()}>&nbsp;</td>); 
 
         for (let j=0;j<row.length;j++) {
           let topic=row [j];
           if (this.props.invalidated==false) {
-            header.push(<td valign="bottom"><div className="vertical" onClick={(e) => this.onHandleTopic (topic [2],true,-1)}>{topic [1]}</div></td>);  
+            header.push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="vertical" onClick={(e) => this.onHandleTopic (topic [2],true,-1)}>{topic [1]}</div></td>);  
           } else {
-            header.push(<td valign="bottom"><div className="vertical-disabled noselect">{topic [1]}</div></td>);       
+            header.push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="vertical-disabled noselect">{topic [1]}</div></td>);       
           }
         }
 
@@ -465,15 +493,15 @@ class OnTopicVisualization extends Component {
               if (this.props.invalidated==false) {
                 //console.log (cell);
                 let count=addTopic (cell [2]);
-                header.push(<td valign="bottom"><div className="block-blue" alt={cell [2]} title={cell [2]} onClick={(e) => this.onHandleTopic (cell [13],false,count)}></div></td>);
+                header.push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="block-blue" alt={cell [2]} title={cell [2]} onClick={(e) => this.onHandleTopic (cell [13],false,count)}></div></td>);
               } else {
-                header.push(<td valign="bottom"><div className="block-disabled"></div></td>);               
+                header.push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="block-disabled"></div></td>);               
               }
             } else {
-              header.push(<td valign="bottom"><div className="empty"></div></td>);
+              header.push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="empty"></div></td>);
             }
           } else {
-            header.push(<td valign="bottom">&nbsp;</td>);
+            header.push(<td key={this.dataTools.uuidv4()} valign="bottom">&nbsp;</td>);
           }
         }
 
@@ -539,16 +567,16 @@ class OnTopicVisualization extends Component {
 
           if (j==0) {
             newRow=[];
-            newRow.push (<td>&nbsp;</td>);
+            newRow.push (<td key={this.dataTools.uuidv4()}>&nbsp;</td>);
             rows.push(newRow);
           }
 
           newRow=[];
 
           if (this.props.invalidated==false) {            
-            newRow.push(<td align="right"><div className="horizontal" onClick={(e) => this.onHandleTopic (topic [2],true,-1)}>{topic [1]}</div></td>);            
+            newRow.push(<td key={this.dataTools.uuidv4()} align="right"><div className="horizontal" onClick={(e) => this.onHandleTopic (topic [2],true,-1)}>{topic [1]}</div></td>);            
           } else {
-            newRow.push(<td align="right"><div className="horizontal-disabled noselect">{topic [1]}</div></td>);            
+            newRow.push(<td key={this.dataTools.uuidv4()} align="right"><div className="horizontal-disabled noselect">{topic [1]}</div></td>);            
           }
 
           rows.push (newRow);
@@ -560,24 +588,24 @@ class OnTopicVisualization extends Component {
           if (this.dataTools.isNumber (cell)==true) {
             isEmpty=true;
             if (j==0) {
-              rows [0].push (<td>&nbsp;</td>);
+              rows [0].push (<td key={this.dataTools.uuidv4()}>&nbsp;</td>);
             }
-            rows [rowIndex+1].push(<td valign="bottom" className="grey-narrow">&nbsp;</td>);
+            rows [rowIndex+1].push(<td key={this.dataTools.uuidv4()} valign="bottom" className="grey-narrow">&nbsp;</td>);
           } else {
             if (j==0) {
-              rows [0].push (<td><div className="horizontal">{lineCount}</div></td>);
+              rows [0].push (<td key={this.dataTools.uuidv4()}><div className="horizontal">{lineCount}</div></td>);
             }
 
             if (cell [1]!=false) {
               if (this.props.invalidated==false) {
                 //console.log (cell);
                 let count=addTopic (cell [2]);
-                rows [rowIndex+1].push(<td valign="bottom"><div className="block-blue-horizontal" alt={cell [2]} title={cell [2]} onClick={(e) => this.onHandleTopic (cell [13],false,count)}></div></td>);
+                rows [rowIndex+1].push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="block-blue-horizontal" alt={cell [2]} title={cell [2]} onClick={(e) => this.onHandleTopic (cell [13],false,count)}></div></td>);
               } else {
-                rows [rowIndex+1].push(<td valign="bottom"><div className="block-disabled"></div></td>);
+                rows [rowIndex+1].push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="block-disabled"></div></td>);
               }
             } else {
-              rows [rowIndex+1].push(<td valign="bottom"><div className="empty"></div></td>);
+              rows [rowIndex+1].push(<td key={this.dataTools.uuidv4()} valign="bottom"><div className="empty"></div></td>);
             }            
           }
 
@@ -598,7 +626,7 @@ class OnTopicVisualization extends Component {
     for (let i=0;i<rows.length;i++) {
       let aRow=rows [i];
       let htmlRow=[];
-      htmlRow.push (<tr>{aRow}</tr>);
+      htmlRow.push (<tr key={this.dataTools.uuidv4()}>{aRow}</tr>);
 
       table.push (htmlRow);
     }
@@ -636,7 +664,14 @@ class OnTopicVisualization extends Component {
     if (this.props.onHandleTopic) {
       this.props.onHandleTopic(topicId,isGlobal,count);
     }
-  }  
+  }
+
+  /**
+   *
+   */
+  onParagraphTopicClick (topicId) {
+    console.log ("onParagraphTopicClick ("+topicId+")");
+  }
 
   /**
    *
