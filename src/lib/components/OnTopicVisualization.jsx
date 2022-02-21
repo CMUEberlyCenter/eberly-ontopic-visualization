@@ -713,7 +713,7 @@ class OnTopicVisualization extends Component {
       }
     }  	
 
-  	return (<div style={{border: "1px solid red"}}>
+  	return (<div className="ontopic">
       <Tabs defaultIndex={this.props.defaultindex} onSelect={this.props.onSelect}>
         <TabList>
           <Tab disabled={this.props.loading}>Sentence</Tab>

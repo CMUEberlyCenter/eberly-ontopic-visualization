@@ -1,6 +1,6 @@
 {
   "name": "@cmu-eberly-center/eberly-ontopic-visualization",
-  "version": "0.4.12",
+  "version": "0.4.52",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -25,7 +25,11 @@
   "keywords": [
     "react",
     "npm",
-    "webpack"
+    "webpack",
+    "linguistics",
+    "teaching",
+    "natural language",
+    "writing"
   ],
   "author": "Martin van Velsen",
   "license": "CREATIVE COMMONS ATTRIBUTION-NONCOMMERCIAL 4.0 INTERNATIONAL LICENSE",
