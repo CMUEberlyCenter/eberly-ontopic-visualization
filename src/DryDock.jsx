@@ -29,26 +29,16 @@ class DryDock extends Component {
   constructor(props) {
     super(props);
 
+    this.dataTools=new OnTopicDataTools ();
+
     this.state = { 
       locked: false,
       invalidated: false,      
       flipped: false,
       mode: "TEXT",
-      textdata: { 
-        valueRaw: null,        
-        topics: null,
-        topic: null,        
-        sentences: null,
-        sentence: null,
-        collapsed: null,
-        expanded: null,
-        pValue: "",
-        pTarget: -1        
-      },
+      textdata: this.dataTools.getInitialData(),
       loading: false
     };    
-
-    this.dataTools=new OnTopicDataTools ();
 
     this.onDataset1=this.onDataset1.bind(this);
     this.onDataset2=this.onDataset2.bind(this);
@@ -131,7 +121,24 @@ class DryDock extends Component {
    *
    */
   onHandleTopic (topicId,isGlobal,count) {
-    console.log ("onHandleTopic ("+topicId+","+isGlobal+","+count+") => Dummy for now");
+    console.log ("onHandleTopic ("+topicId+","+isGlobal+","+count+")");
+
+    if (this.state.textdata.topics!=null) {
+      let topic=this.state.textdata.topics.getItem (topicId);
+      console.log ("Selected topic: " + JSON.stringify (topic));
+      if (topic!=null) {
+        //let newData=this.dataTools.deepCopy (this.state.textdata);
+        let newData=this.dataTools.copyData (this.state.textdata);
+        newData.topic=topic;
+        this.setState ({textdata: newData, isGlobal: isGlobal}, (e) => {
+          this.onTopicChange (count);
+        });
+      } else {
+        console.log ("Unable to find topic");
+      }
+    } else {
+      console.log ("Internal error: no topics cache available");
+    }
   }
 
   /**
@@ -187,6 +194,16 @@ class DryDock extends Component {
   }  
 
   /**
+   * On input change, update the annotations.
+   *
+   * @param {Event} event
+   */
+  onTopicChange (aCount) {
+    console.log ("onTopicChange ("+aCount+")");
+    
+  }
+
+  /**
    *
    */
   getData (aMode) {
@@ -208,13 +225,12 @@ class DryDock extends Component {
   /**
    *
    */
-  prep (data) {
+  prep (data, plain) {
     console.log ("prep ("+this.state.mode+")");
-    console.log (data);
 
-    var newData=this.dataTools.deepCopy (this.state.textdata);
-
-    newData.plain=rawData;
+    //var newData=this.dataTools.deepCopy (this.state.textdata);
+    var newData=this.dataTools.copyData (this.state.textdata);
+    newData.plain=plain;
 
     //>--------------------------------------------------------------------
 
@@ -306,7 +322,7 @@ class DryDock extends Component {
     }
 
     //>--------------------------------------------------------------------    
-  }  
+  }
 
   /**
    *

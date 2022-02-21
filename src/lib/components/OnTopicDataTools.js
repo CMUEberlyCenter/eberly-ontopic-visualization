@@ -3,6 +3,7 @@
 import React from 'react';
 import Pluralize from "./utils/pluralize";
 import Sentence from './utils/Sentence';
+import HashTable from './utils/HashTable';
 
 /**
  * @returns
@@ -29,16 +30,6 @@ class OnTopicDataTools {
   isBlank(str) {
     return (!str || /^\s*$/.test(str));
   }  
-
-  /**
-   * We need to switch to using the immutable package. That way we
-   * avoid really expensive deep copies through bad tricks like the
-   * one below.
-   * @param {any} anObject
-   */
-  deepCopy (anObject) {
-    return (JSON.parse(JSON.stringify(anObject)));
-  }
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
@@ -518,6 +509,92 @@ class OnTopicDataTools {
       console.log("'"+anArray[i]+"'");
     }
   }
+
+  /**
+   * 
+   */
+  getInitialData () {
+    return ({ 
+        valueRaw: null,        
+        topics: null,
+        topic: new HashTable (),        
+        sentences: null,
+        sentence: null,
+        collapsed: null,
+        expanded: null,
+        pValue: "",
+        pTarget: -1        
+      });
+  }
+
+  /**
+   * We need to switch to using the immutable package. That way we
+   * avoid really expensive deep copies through bad tricks like the
+   * one below.
+   * @param {any} anObject
+   */
+  deepCopy (anObject) {
+    if (anObject==null) {
+      return (null);
+    }
+
+    return (JSON.parse(JSON.stringify(anObject)));
+  }  
+
+  /**
+   * 
+   */
+  copyTopics (aTopics) {
+    console.log ("copyTopics ()");
+
+    if (aTopics==null) {
+      return (null);
+    }
+
+    let length=aTopics.getLength ();
+    let items=aTopics.getItems ();
+    let newItems=this.deepCopy (items);
+
+    let topics=new HashTable ();
+    topics.setItems (newItems, length);
+
+    return (topics);
+  }
+
+  /**
+    textdata: { 
+      valueRaw: null,        
+      plain: "", // replacement of valueRaw, as in actual textual text
+      topics: new HashTable (),
+      topic: null,        
+      sentences: null,
+      sentence: null,
+      collapsed: null,
+      expanded: null     
+    }
+   */
+  copyData (textData) {
+    console.log ("copyData ()");
+
+    if (textData==null) {
+      return (null);
+    }
+
+    var newTopics=this.copyTopics (textData.topics);
+    
+    var newData = { 
+      valueRaw: this.deepCopy (textData.valueRaw),
+      plain: this.deepCopy (textData.plan),
+      topics: newTopics,
+      topic: this.deepCopy (textData.topic),
+      sentences: this.deepCopy (textData.sentences),
+      sentence: this.deepCopy (textData.sentence),
+      collapsed: this.deepCopy (textData.collapsed),
+      expanded: this.deepCopy (textData.expanded)
+    };
+
+    return (newData);
+  }  
 }
 
 export default OnTopicDataTools;
