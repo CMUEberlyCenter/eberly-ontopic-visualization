@@ -1,7 +1,7 @@
 
 .ontopic {
   background: white;
-  border: 1px inset white;
+  /*border: 1px inset white;*/
   line-height: 11pt;
 }
 
@@ -12,8 +12,8 @@
 
 .contentrowflex {
   flex: 1;
-  margin-top: 10px;
-  overflow: auto;
+  margin-top: 2px;
+  overflow: hidden;
 }
 
 .contentrowfixed {
@@ -21,9 +21,10 @@
 }
 
 .langtable {
-  /*width: 100%;*/
-  margin: 12px;  
+  width: 100%;
+  /* margin: 12px; */
   border-spacing: 0px;
+  overflow: hidden;
 }
 
 .langtable td {
@@ -31,13 +32,17 @@
 }
 
 .pseparator {
-  background: #f1f1f1;
-  height: 14px;
-  font-size: 2pt;
+  background: #f1f1f1 !important;
+  height: 8px !important;
+  font-size: 2pt!important;
+  border-bottom: 2px solid white !important;
+  border-top: 2px solid white !important;
 }
 
 .psentence {
-  font-size: 10pt;
+  font-size: 12pt;
+  border-bottom: 0;
+  background-color: #ffffff;
 }
 
 .vertical {

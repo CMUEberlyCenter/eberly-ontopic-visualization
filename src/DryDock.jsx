@@ -35,7 +35,7 @@ class DryDock extends Component {
       locked: false,
       invalidated: false,      
       flipped: false,
-      mode: "TEXT",
+      mode: "SENTENCE",
       textdata: this.dataTools.getInitialData(),
       loading: false
     };    
@@ -398,7 +398,10 @@ class DryDock extends Component {
    */
   render() {
 
+/*
     let ontopic=<OnTopicVisualization 
+      mode={this.state.mode}
+      singlepane={false}
       onFlip={this.onFlip}
       onSelect={this.onSelect}
       onHandleTopic={this.onHandleTopic}
@@ -406,10 +409,24 @@ class DryDock extends Component {
       defaultindex={this.modeToTab ()}
       loading={this.state.loading} 
       flipped={this.state.flipped}
-      mode={this.state.mode}      
       invalidated={this.state.invalidated}
       onNavItemClick={this.onNavItemClick}
       textdata={this.state.textdata} />;
+*/      
+
+    let ontopic=<OnTopicVisualization 
+      mode="SENTENCE"
+      singlepane={true}
+      onFlip={this.onFlip}
+      onSelect={this.onSelect}
+      onHandleTopic={this.onHandleTopic}
+      onHandleSentence={this.onHandleSentence}
+      defaultindex={this.modeToTab ()}
+      loading={this.state.loading} 
+      flipped={this.state.flipped}
+      invalidated={this.state.invalidated}
+      onNavItemClick={this.onNavItemClick}
+      textdata={this.state.textdata} />;      
 
     return (
       <div className="drydock">
@@ -418,13 +435,13 @@ class DryDock extends Component {
         </div>
         <div className="drydock-row">
           <div className="drydock-menu">
+            <Button className="btn btn-light" style={{margin: "2px"}} onClick={()=> this.updateVisualization()}>Update Visualization</Button>
             <button className='drydock-button' onClick={(e) => this.onDataset1()}>Dataset 1</button>
             <button className='drydock-button' onClick={(e) => this.onDataset2()}>Dataset 2</button>
             <button className='drydock-button' onClick={(e) => this.onDataset3()}>Dataset 3</button>
             <button className='drydock-button' onClick={(e) => this.onDataset4()}>Dataset 4</button>                                    
           </div>
           <div className="drydock-content">
-            <Button className="btn btn-light" style={{marginRight: "4px"}} onClick={()=> this.updateVisualization()}>Update Visualization</Button>
             {ontopic}
           </div>          
         </div>

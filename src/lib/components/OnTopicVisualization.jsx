@@ -127,7 +127,7 @@ class OnTopicVisualization extends Component {
     let sentence=1;
 
     if (this.props.textdata.sentences==null) {      
-      return (<div className="contentrowflex"><table className="langtable"><tbody></tbody></table></div>);
+      return (<div className="contentrowflex">No data provided</div>);
     }
 
     for (let i=0;i<this.props.textdata.sentences.length;i++) {
@@ -677,6 +677,14 @@ class OnTopicVisualization extends Component {
    *
    */
   render () {
+    let singlePane=false;
+
+    if (typeof this.props.singlepane !== 'undefined') {
+      singlePane=this.props.singlepane;
+    }
+
+    console.log ("render ("+singlePane+")");
+
     let globalTopics; // Will not be used?
     let pdfDownload;
 
@@ -708,7 +716,7 @@ class OnTopicVisualization extends Component {
 
     if (this.props.mode=="PARAGRAPH") {
       if (this.props.loading==true) {
-        sentencetab=waiting;
+        paragraphtab=waiting;
       } else {
         if (this.props.flipped==false) {
           paragraphview=this.generateParagraphViewRegular ();
@@ -747,6 +755,20 @@ class OnTopicVisualization extends Component {
           </div>;      
       }
     }  	
+
+    if (singlePane==true) {
+      if (this.props.mode=="SENTENCE") {
+        return (sentencetab);
+      }
+
+      if (this.props.mode=="PARAGRAPH") {
+        return (paragraphtab);
+      }
+
+      if (this.props.mode=="TEXT") {
+        return (texttab);
+      }
+    }
 
   	return (<div className="ontopic">
       <Tabs defaultIndex={this.props.defaultindex} onSelect={this.props.onSelect}>
