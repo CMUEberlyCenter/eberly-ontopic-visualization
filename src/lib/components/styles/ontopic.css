@@ -28,19 +28,21 @@
 }
 
 .langtable td {
-  padding: 3px;  
+  padding: 1px;  
 }
 
 .pseparator {
   background: #f1f1f1 !important;
-  height: 8px !important;
-  font-size: 2pt!important;
+  /* height: 8px !important; */
+  font-size: 10pt !important;
+  line-height: 12pt;
   border-bottom: 2px solid white !important;
   border-top: 2px solid white !important;
 }
 
 .psentence {
   font-size: 12pt;
+  line-height: 13pt;
   border-bottom: 0;
   background-color: #ffffff;
 }
@@ -131,6 +133,33 @@
 .block-left {
   margin: 1px;
   float: left;
+}
+
+.block-verb-noun {
+  margin: 1px;
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: green;
+  cursor: pointer;
+}
+
+.block-verb-active {
+  margin: 1px;
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: red;
+  cursor: pointer;
+}
+
+.block-verb-be {
+  margin: 1px;
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  background: blue;
+  cursor: pointer;
 }
 
 .empty {

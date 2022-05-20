@@ -9,6 +9,7 @@ import '../css/drydock.css';
 import { paragraphData } from './paragraphdata.js'
 import { textData } from './textdata.js'
 import { sentenceData } from './sentencedata.js'
+import { sentenceDataNew } from './sentencedatanew.js'
 import { rawData } from './rawdata.js'
 
 import HashTable from './HashTable';
@@ -210,7 +211,8 @@ class DryDock extends Component {
     console.log ("getData ()");
       
     if (this.state.mode=="SENTENCE") {
-      this.prep (sentenceData);
+      //this.prep (sentenceData);
+      this.prep (sentenceDataNew);
     }
 
     if (this.state.mode=="PARAGRAPH") {
