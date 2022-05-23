@@ -80,8 +80,7 @@ class OnTopicVisualization extends Component {
 
     this.state={
       pValue: "",
-      pTarget: -1,
-      useSentenceVizNew: true
+      pTarget: -1
     }
 
     this.dataTools=new OnTopicDataTools ();
@@ -136,6 +135,12 @@ class OnTopicVisualization extends Component {
       let entry=this.props.textdata.sentences [i];
       if (Array.isArray(entry)==true) {
         let coreData=entry [2];
+        let beVerb=null;
+        let hasBeVerb=false;
+        if (coreData.hasOwnProperty('BE_VERB')==true) {
+          hasBeVerb=true;
+          beVerb=coreData["BE_VERB"]; // New data!
+        }
         let L_NPS=coreData ["L_NPS"];
         let R_NPS=coreData ["R_NPS"];
         let AUX_VERBS=coreData ["AUX_VERB"];
@@ -189,106 +194,17 @@ class OnTopicVisualization extends Component {
           npIndex++;
         }
 
-        rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td>&nbsp;</td><td valign="bottom">{rightBlocks}</td></tr>);
-
-        sentence++;
-      } else {
-        rows.push(<tr key={this.dataTools.uuidv4()} className="pseparator"><td valign="bottom" colSpan="4">{"¶ "+paragraphIndex}</td></tr>);
-        paragraphIndex++;
-      }
-    }
-
-    return (<div className="contentrowflex">
-      <table className="langtable">
-       <thead>
-        <tr><td>&nbsp;</td><td className="align-right">Left</td><td style={{width: "10px"}}>&nbsp;</td><td>Right</td></tr>
-       </thead>
-       <tbody>
-       {rows}
-       </tbody>
-      </table>
-      </div>);
-  }
-
-  /**
-   *
-   */
-  generateSentenceViewNew () {
-    console.log ("generateSentenceViewNew ("+this.props.invalidated+")");
-
-    let rows=[];
-    let sentence=1;
-    let paragraphIndex=1;
-
-    if (this.props.textdata.sentences==null) {      
-      return (<div className="contentrowflex">No data provided</div>);
-    }
-
-    for (let i=0;i<this.props.textdata.sentences.length;i++) {
-      let entry=this.props.textdata.sentences [i];
-      if (Array.isArray(entry)==true) {
-        let coreData=entry [2];
-        let beVerb=coreData["BE_VERB"]; // New data!
-        let L_NPS=coreData ["L_NPS"];
-        let R_NPS=coreData ["R_NPS"];
-        let AUX_VERBS=coreData ["AUX_VERB"];
-        let NPS=coreData["NPS"];
-
-        let leftBlocks=[];
-        let rightBlocks=[];
-        let npIndex=0;
-
-        for (let j=0;j<L_NPS;j++) {
-          let leftClass="";
-
-          if (this.props.invalidated==false) {
-            if (AUX_VERBS==false) {
-              leftClass="block-purple block-right";
-            } else {
-              leftClass="block-red block-right";
-            }
-          } else {
-            leftClass="block-disabled block-right";
-          }  
-
-          if (this.props.invalidated==false) {
-            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
-          } else {
-            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass}></div>);              
+        if (hasBeVerb==true) {
+          let verbClass="block-verb-active";
+          if (beVerb==true) {
+            verbClass="block-verb-be";
           }
+          let verbElement=<div key={this.dataTools.uuidv4()} className={verbClass}></div>;
 
-          npIndex++;
+          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td valign="bottom">{verbElement}</td><td valign="bottom">{rightBlocks}</td></tr>);
+        } else {
+          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td valign="bottom">&nbsp;</td><td valign="bottom">{rightBlocks}</td></tr>);
         }
-
-        for (let k=0;k<R_NPS;k++) {
-          let rightClass="";
-
-          if (this.props.invalidated==false) {
-            if (AUX_VERBS==false) {
-              rightClass="block-purple block-left";
-            } else {
-              rightClass="block-red block-left";
-            }
-          } else {
-            rightClass="block-disabled block-left";
-          }
-
-          if (this.props.invalidated==false) {
-            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
-          } else {
-            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass}></div>);              
-          }
-
-          npIndex++;
-        }
-
-        let verbClass="block-verb-active";
-        if (beVerb==true) {
-          verbClass="block-verb-be";
-        }
-        let verbElement=<div key={this.dataTools.uuidv4()} className={verbClass}></div>;
-
-        rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td valign="bottom">{verbElement}</td><td valign="bottom">{rightBlocks}</td></tr>);
 
         sentence++;
       } else {
@@ -808,11 +724,7 @@ class OnTopicVisualization extends Component {
       if (this.props.loading==true) {
         sentencetab=waiting;
       } else {
-        if (this.state.useSentenceVizNew==true) {
-          sentenceview=this.generateSentenceViewNew ();
-        } else {
-          sentenceview=this.generateSentenceView ();
-        }
+        sentenceview=this.generateSentenceView ();
 
         sentencetab=<div className="contentcolumn">
             {globalTopics}            
