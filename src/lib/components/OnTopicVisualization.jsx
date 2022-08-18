@@ -95,18 +95,22 @@ class OnTopicVisualization extends Component {
    *
    */
   onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence) {
-    console.log ("onHandleSentence ("+aParagraph+","+aSentenceIndex+")");
+    //console.log ("onHandleSentence ("+aParagraph+","+aSentenceIndex+")");
+
+    if (this.props.onHandleSentence) {
+      this.props.onHandleSentence (aParagraph-1,aSentenceIndex-1,aBlock,aSentence);
+    }
 
     let sentenceObject=this.dataTools.buildSentenceModel (aBlock,aSentence);
 
-    console.log (sentenceObject);
+    //console.log (sentenceObject);
 
     if (sentenceObject!=null) {
       sentenceObject.paragraphIndex=aParagraph;
       sentenceObject.sentenceIndex=aSentenceIndex;
  
-      if (this.props.onHandleSentence) {
-        this.props.onHandleSentence (sentenceObject);
+      if (this.props.onHandleSentenceObject) {
+        this.props.onHandleSentenceObject (sentenceObject);
       }
 
       /*
@@ -121,7 +125,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateSentenceView () {
-    console.log ("generateSentenceView ("+this.props.invalidated+")");
+    //console.log ("generateSentenceView ("+this.props.invalidated+")");
 
     let rows=[];
     let sentence=1;
@@ -157,7 +161,7 @@ class OnTopicVisualization extends Component {
             if (AUX_VERBS==false) {
               leftClass="block-purple block-right";
             } else {
-              leftClass="block-red block-right";
+              leftClass="block-green block-right";
             }
           } else {
             leftClass="block-disabled block-right";
@@ -179,7 +183,7 @@ class OnTopicVisualization extends Component {
             if (AUX_VERBS==false) {
               rightClass="block-purple block-left";
             } else {
-              rightClass="block-red block-left";
+              rightClass="block-green block-left";
             }
           } else {
             rightClass="block-disabled block-left";
@@ -229,7 +233,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateParagraphViewFlipped () {
-    console.log ("generateParagraphViewFlipped ("+this.props.invalidated+","+this.state.pTarget+")");
+    //console.log ("generateParagraphViewFlipped ("+this.props.invalidated+","+this.state.pTarget+")");
 
     topicCache=[];
 
@@ -338,7 +342,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateParagraphViewRegular () {
-    console.log ("generateParagraphViewRegular ("+this.props.invalidated+","+this.state.pTarget+")");
+    //console.log ("generateParagraphViewRegular ("+this.props.invalidated+","+this.state.pTarget+")");
 
     topicCache=[];
 
@@ -427,7 +431,7 @@ class OnTopicVisualization extends Component {
       }
     }
 
-    console.log (rows);
+    //console.log (rows);
 
     let paragraphViz;
     let vizRows=[];
@@ -458,14 +462,14 @@ class OnTopicVisualization extends Component {
    *
    */
   generateTextViewFlipped () {
-    console.log ("generateTextViewFlipped ("+this.props.invalidated+")");
+    //console.log ("generateTextViewFlipped ("+this.props.invalidated+")");
 
     topicCache=[];
 
     let rows=[];
 
     if (this.props.textdata.expanded==null) {
-      console.log ("this.props.textdata.expanded == null");
+      //console.log ("this.props.textdata.expanded == null");
       return (<div className="contentrowflex"><table className="langtable"><tbody></tbody></table></div>);
     } 
 
@@ -544,7 +548,7 @@ class OnTopicVisualization extends Component {
    *
    */
   generateTextViewRegular () {
-    console.log ("generateTextViewRegular ("+this.props.invalidated+")");   
+    //console.log ("generateTextViewRegular ("+this.props.invalidated+")");   
 
     topicCache=[];
 
@@ -666,10 +670,10 @@ class OnTopicVisualization extends Component {
    *
    */
   onHandleParagraphChange (e) {
-    console.log ("onHandleParagraphChange ("+e.target.value+")");
+    //console.log ("onHandleParagraphChange ("+e.target.value+")");
 
     if (e.target.value==-1) {
-      console.log ("Nothing to see here");
+      //console.log ("Nothing to see here");
       return;
     }
 
@@ -680,9 +684,11 @@ class OnTopicVisualization extends Component {
    *
    */
   onHandleTopic (topicId,isGlobal,count) {
+    /*
     if (this.props.onHandleTopic) {
       this.props.onHandleTopic(topicId,isGlobal,count);
     }
+    */
   }
 
   /**
@@ -690,6 +696,7 @@ class OnTopicVisualization extends Component {
    */
   onParagraphTopicClick (topicId) {
     console.log ("onParagraphTopicClick ("+topicId+")");
+
   }
 
   /**
@@ -702,7 +709,7 @@ class OnTopicVisualization extends Component {
       singlePane=this.props.singlepane;
     }
 
-    console.log ("render ("+singlePane+")");
+    //console.log ("render ("+singlePane+")");
 
     let globalTopics; // Will not be used?
     let pdfDownload;

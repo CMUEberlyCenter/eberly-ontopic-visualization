@@ -193,8 +193,8 @@ class OnTopicDataTools {
    * 
    */  
   buildSentenceModel (aBlock,aSentence) {
-    console.log ("buildSentenceModel ("+aSentence+")");
-    console.log (aBlock);
+    //console.log ("buildSentenceModel ("+aSentence+")");
+    //console.log (aBlock);
 
     let newSentence=new Sentence ();
     newSentence.full=aSentence;
@@ -216,7 +216,7 @@ class OnTopicDataTools {
    * 
    */  
   findSentence (aText,aSentence) {
-    console.log ("findSentence ()");
+    //console.log ("findSentence ()");
     //console.log (aText);
     //console.log (aSentence);
 
@@ -291,9 +291,9 @@ class OnTopicDataTools {
    * 
    */
   parameterSetValue (aParameters,aParameter,aValue) {
-	  console.log ("parameterSetValue ("+aValue+")");
+	  //console.log ("parameterSetValue ("+aValue+")");
 	
-	//console.log ("Original parameters: " + JSON.stringify (aParameters));
+	  //console.log ("Original parameters: " + JSON.stringify (aParameters));
 	
     for (var key in aParameters) {
       if (aParameters.hasOwnProperty(key)) {
@@ -312,11 +312,11 @@ class OnTopicDataTools {
    * 
    */
   handleParameterChange (param,event) {
-	  console.log ("handleParameterChange("+param+")");
+	  //console.log ("handleParameterChange("+param+")");
     
     var data = event.target.value;
     
-    console.log (param + " => " + data);
+    //console.log (param + " => " + data);
   }
 	
   /**
@@ -325,7 +325,7 @@ class OnTopicDataTools {
    */	
   parameterJSONtoArray (anObjectMap) {
   	//console.log ("parameterJSONtoArray ()");
-      //console.log ("Parameter object: " + JSON.stringify (anObjectMap));
+    //console.log ("Parameter object: " + JSON.stringify (anObjectMap));
       
   	var newArray=new Array ();
   	
@@ -387,7 +387,7 @@ class OnTopicDataTools {
   deleteElement (anArray,aTarget) {
     for( var i = 0; i < anArray.length; i++) { 
       if (anArray[i] === aTarget) {
-        console.log ("Deleting element ...");
+        //console.log ("Deleting element ...");
         anArray.splice(i, 1);
         return (anArray);
       }
@@ -400,7 +400,7 @@ class OnTopicDataTools {
    *
    */
   popElement (anArray) {
-    console.log ("popElement ()");
+    //console.log ("popElement ()");
 
     if (!anArray) {
       return (anArray);
@@ -410,11 +410,11 @@ class OnTopicDataTools {
       return (anArray);
     }
 
-    console.log ("Before pop: " + anArray.length); 
+    //console.log ("Before pop: " + anArray.length); 
    
     anArray.splice(anArray.length-1, 1);
 
-    console.log ("After pop: " + anArray.length);
+    //console.log ("After pop: " + anArray.length);
 
     return (anArray);
   }
@@ -431,23 +431,23 @@ class OnTopicDataTools {
    */
   syntaxHighlight(json) {
     if (typeof json != 'string') {
-         json = JSON.stringify(json, undefined, 2);
+      json = JSON.stringify(json, undefined, 2);
     }
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        var cls = 'number';
-        if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-                cls = 'key';
-            } else {
-                cls = 'string';
-            }
-        } else if (/true|false/.test(match)) {
-            cls = 'boolean';
-        } else if (/null/.test(match)) {
-            cls = 'null';
-        }
-        return '<span class="' + cls + '">' + match + '</span>';
+      var cls = 'number';
+      if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+              cls = 'key';
+          } else {
+              cls = 'string';
+          }
+      } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+      } else if (/null/.test(match)) {
+          cls = 'null';
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
     });
   }
 
@@ -545,7 +545,7 @@ class OnTopicDataTools {
    * 
    */
   copyTopics (aTopics) {
-    console.log ("copyTopics ()");
+    //console.log ("copyTopics ()");
 
     if (aTopics==null) {
       return (null);
@@ -574,7 +574,7 @@ class OnTopicDataTools {
     }
    */
   copyData (textData) {
-    console.log ("copyData ()");
+    //console.log ("copyData ()");
 
     if (textData==null) {
       return (null);

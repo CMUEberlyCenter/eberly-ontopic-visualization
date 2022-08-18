@@ -46,6 +46,7 @@ class DryDock extends Component {
     this.onDataset3=this.onDataset3.bind(this);
     this.onDataset4=this.onDataset4.bind(this);
     this.onHandleSentence = this.onHandleSentence.bind(this);
+    this.onHandleSentenceObject = this.onHandleSentenceObject.bind(this);    
     this.onSelect=this.onSelect.bind(this);
     this.modeToTab=this.modeToTab.bind(this);
     this.onFlip=this.onFlip.bind(this);
@@ -145,13 +146,30 @@ class DryDock extends Component {
   /**
    *
    */
-  onHandleSentence (aSentenceObject) {
+  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence) {
     console.log ("onHandleSentence ()");
+    console.log (aParagraph);
+    console.log (aSentenceIndex);
+    console.log (aBlock);
+    console.log (aSentence);
+
+    /*
+    this.setState ({sentence: aSentenceObject},(e) => {
+      this.onSentenceChange ();
+    });
+    */
+  }
+
+  /**
+   *
+   */
+  onHandleSentenceObject (aSentenceObject) {
+    console.log ("onHandleSentenceObject ()");
 
     this.setState ({sentence: aSentenceObject},(e) => {
       this.onSentenceChange ();
     });
-  }
+  }  
 
   /**
    * On input change, update the annotations.
@@ -423,6 +441,7 @@ class DryDock extends Component {
       onSelect={this.onSelect}
       onHandleTopic={this.onHandleTopic}
       onHandleSentence={this.onHandleSentence}
+      onHandleSentenceObject={this.onHandleSentenceObject}
       defaultindex={this.modeToTab ()}
       loading={this.state.loading} 
       flipped={this.state.flipped}
