@@ -34,60 +34,6 @@ class OnTopicDataTools {
   /**
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
    */
-  /* 
-  detect (word,term) {
-    console.log ("detect ()");
-    let result=[false,"","",""];
-    let pre="";
-    let post="";
-    let found=false;
-    
-    let parts=word.split(/([.,\/#!$%\^&\*;:{}=\-_`~()])/);
-
-    console.log (parts);
-
-    for (let i=0;i<parts.length;i++) {
-      let test=parts [i];
-
-      if (term==test) {
-        found=true;
-        result [0]=true;
-        result [2]=term;
-      } else {
-        let plural=this.pluralizer.pluralize (term);
-        if (test==plural) {
-          found=true;
-          result [0]=true;
-          result [2]=plural;
-          post=post+plural.substring (term.length);          
-        } else {
-          if (found==false){
-            pre=pre+test;
-          } else {
-            post=post+test;
-          }
-        }
-      }
-    }
-
-    result [1]=pre;
-    result [3]=post;
-
-    if ((result [1]!="") && (result[3]=="")) {
-      result [1]=(result [1]+"-");
-    }
-
-    if (result [0]==true) {
-      console.log (pre + "" + post);
-    }
-    
-    return (result);
-  } 
-  */ 
-
-  /**
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
-   */
   detect (word,term) {
     //console.log ("detect ()");
 
@@ -207,7 +153,7 @@ class OnTopicDataTools {
     let leftOfVerb=NPS [aBlock ["L_NPS"]-1];
     let rightOfVerb=NPS [aBlock ["L_NPS"]];
 
-    console.log ("... " + leftOfVerb + " <Verb> " + rightOfVerb + " ...");
+    //console.log ("... " + leftOfVerb + " <Verb> " + rightOfVerb + " ...");
 
     return (newSentence);
   }

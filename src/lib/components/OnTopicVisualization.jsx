@@ -22,9 +22,8 @@ var topicCache=[];
  *
  */
 function getTopic (aTopic) {
-  console.log ("getTopic ("+aTopic+")");
-
-  console.log (topicCache);
+  //console.log ("getTopic ("+aTopic+")");
+  //console.log (topicCache);
 
   for (let i=0;i<topicCache.length;i++) {
     let topic=topicCache [i];
@@ -40,7 +39,7 @@ function getTopic (aTopic) {
  *
  */
 function addTopic (aTopic) {
-  console.log ("addTopic()");
+  //console.log ("addTopic()");
 
   let target=null;
 
@@ -80,7 +79,9 @@ class OnTopicVisualization extends Component {
 
     this.state={
       pValue: "",
-      pTarget: -1
+      pTarget: -1,
+      paragraphSelected: -1,
+      sentenceSelected: -1      
     }
 
     this.dataTools=new OnTopicDataTools ();
@@ -94,11 +95,14 @@ class OnTopicVisualization extends Component {
   /**
    *
    */
-  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence) {
+  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence,aTopic) {
     //console.log ("onHandleSentence ("+aParagraph+","+aSentenceIndex+")");
+    //console.log (aBlock);
+    //console.log (aSentence);
+    //console.log (aTopic)
 
     if (this.props.onHandleSentence) {
-      this.props.onHandleSentence (aParagraph-1,aSentenceIndex-1,aBlock,aSentence);
+      this.props.onHandleSentence (aParagraph-1,aSentenceIndex-1,aBlock,aSentence,aTopic);
     }
 
     let sentenceObject=this.dataTools.buildSentenceModel (aBlock,aSentence);
@@ -118,6 +122,11 @@ class OnTopicVisualization extends Component {
         this.onSentenceChange ();
       });
       */
+
+      this.setState ({
+        paragraphSelected: aParagraph,
+        sentenceIndex: aSentenceIndex
+      });
     }
   }  
 
@@ -165,10 +174,12 @@ class OnTopicVisualization extends Component {
             }
           } else {
             leftClass="block-disabled block-right";
-          }  
+          }
+
+          let topic=NPS [npIndex];
 
           if (this.props.invalidated==false) {
-            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
+            leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass} alt={topic} title={topic} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3],topic)}></div>);
           } else {
             leftBlocks.push(<div key={this.dataTools.uuidv4()} className={leftClass}></div>);              
           }
@@ -189,8 +200,10 @@ class OnTopicVisualization extends Component {
             rightClass="block-disabled block-left";
           }
 
+          let topic=NPS [npIndex];
+
           if (this.props.invalidated==false) {
-            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass} alt={NPS [npIndex]} title={NPS [npIndex]} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3])}></div>);
+            rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass} alt={topic} title={topic} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3],topic)}></div>);
           } else {
             rightBlocks.push(<div key={this.dataTools.uuidv4()} className={rightClass}></div>);              
           }
@@ -198,21 +211,38 @@ class OnTopicVisualization extends Component {
           npIndex++;
         }
 
+        let sentenceBackground="";
+        let paragraphIndex=entry[0];
+        let sentenceIndex=entry[1];
+
+        if ((paragraphIndex==this.state.paragraphSelected) && (sentenceIndex==this.state.sentenceIndex)) {
+          if (this.props.settings) {
+            if (this.props.settings.highlight) {
+              sentenceBackground=this.props.settings.highlight;
+            } else {
+              sentenceBackground="yellow";
+            }
+          } else {
+            sentenceBackground="yellow";            
+          }
+        }
+
         if (hasBeVerb==true) {
           let verbClass="block-verb-active";
           if (beVerb==true) {
             verbClass="block-verb-be";
           }
-          let verbElement=<div key={this.dataTools.uuidv4()} className={verbClass}></div>;
+                    
+          let verbElement=<div key={this.dataTools.uuidv4()} className={verbClass} onClick={(e) => this.onHandleSentence (entry [0],entry[1],entry[2],entry[3],null)}></div>;
 
-          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td valign="bottom">{verbElement}</td><td valign="bottom">{rightBlocks}</td></tr>);
+          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence" style={{background: sentenceBackground}}><td>{sentence}</td><td valign="middle">{leftBlocks}</td><td valign="middle">{verbElement}</td><td valign="middle">{rightBlocks}</td></tr>);
         } else {
-          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence"><td>{sentence}</td><td valign="bottom">{leftBlocks}</td><td valign="bottom">&nbsp;</td><td valign="bottom">{rightBlocks}</td></tr>);
+          rows.push(<tr key={this.dataTools.uuidv4()} className="psentence" style={{background: sentenceBackground}}><td>{sentence}</td><td valign="middle">{leftBlocks}</td><td valign="middle">&nbsp;</td><td valign="middle">{rightBlocks}</td></tr>);
         }
 
         sentence++;
       } else {
-        rows.push(<tr key={this.dataTools.uuidv4()} className="pseparator"><td valign="bottom" colSpan="4">{"¶ "+paragraphIndex}</td></tr>);
+        rows.push(<tr key={this.dataTools.uuidv4()} className="pseparator"><td valign="middle" colSpan="4">{"¶ "+paragraphIndex}</td></tr>);
         paragraphIndex++;
       }
     }

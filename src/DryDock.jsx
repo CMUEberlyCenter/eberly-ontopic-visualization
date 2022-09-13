@@ -146,12 +146,12 @@ class DryDock extends Component {
   /**
    *
    */
-  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence) {
-    console.log ("onHandleSentence ()");
-    console.log (aParagraph);
-    console.log (aSentenceIndex);
-    console.log (aBlock);
-    console.log (aSentence);
+  onHandleSentence (aParagraph,aSentenceIndex,aBlock,aSentence,aTopic) {
+    //console.log ("onHandleSentence ()");
+    //console.log (aParagraph);
+    //console.log (aSentenceIndex);
+    //console.log (aBlock);
+    //console.log (aSentence);
 
     /*
     this.setState ({sentence: aSentenceObject},(e) => {
